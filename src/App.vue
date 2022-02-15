@@ -1,32 +1,45 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div>
+    <v-app>
+      <v-app-bar app flat>
+        <v-btn plain :ripple="false" to="/dashboard"> Dashboard </v-btn>
+        <v-btn plain :ripple="false" to="/about"> About </v-btn>
+      </v-app-bar>
+
+      <v-main>
+        <router-view />
+      </v-main>
+    </v-app>
+
+    <transition name="fade">
+      <ContextMenu></ContextMenu>
+    </transition>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import { mapMutations } from "vuex";
+import ContextMenu from "./components/ContextMenu.vue";
 
-#nav {
-  padding: 30px;
+export default {
+  name: "App",
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+  components: {
+    ContextMenu,
+  },
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+  data: () => ({
+    //
+  }),
+  methods: {
+    ...mapMutations(["setPageList", "setDataToPaymentList", "setPageNum"]),
+  },
+  created() {
+    this.setPageList();
+    let num = 1; // Имитация нажатия кнопки "1" компонента пагинации
+    this.setPageNum(num);
+    this.setDataToPaymentList(num);
+    // this.fetchData(num);
+  },
+};
+</script>
