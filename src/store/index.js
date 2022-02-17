@@ -27,14 +27,26 @@ export default new Vuex.Store({
       let index = -1;
       state.paymentsList.forEach((el, ind) => {
         let a = el[page];
-        console.log(a);
         if (a !== null) {
           index = ind;
         }
       });
-      console.log(index);
       state.paymentsList.splice(index, 1, { [page]: a });
-      // console.log(state.paymentsList);
+    },
+    // Изменить элемент в paymentsList
+    editDataToPaymentsList(state, { num, item }) {
+      let page = 'page' + num;
+
+      let a = state.paymentsList[0][page];
+      // найти элемент массива
+      a.forEach((el, ind) => {
+        const { id } = el;
+        if (id === item.id) {
+          a[ind].category = item.category;
+          a[ind].date = item.date;
+          a[ind].value = item.value;
+        }
+      });
     },
     // Установить категории
     setCategories(state, payload) {
@@ -105,7 +117,6 @@ export default new Vuex.Store({
       a = a.filter((el) => el.id !== id);
       let i = state.paymentsList.indexOf([page]);
       state.paymentsList.splice(i, 1, { [page]: a });
-      console.log(i);
     }
   },
   actions: {
@@ -127,8 +138,7 @@ export default new Vuex.Store({
       return new Promise((resolve) => {
         // имитируем работу с сетью
         setTimeout(() => {
-          // resolve([{ id: 1, name: 'Food' }, { id: 2, name: 'Transport' }, { id: 3, name: 'Education' }, { id: 4, name: 'Entertainment' }])
-          resolve(['Food', 'Transport', 'Education', 'Entertainment'])
+          resolve(['Food', 'Transport', 'Education', 'Entertainment', 'Navigation', 'Sport'])
         }, 1000)
       })
         .then(res => {
@@ -166,7 +176,6 @@ export default new Vuex.Store({
       let pageNum = 'page' + num;
       state.paymentsList.forEach((el, ind) => {
         let a = el[pageNum];
-        console.log(a);
         if (a !== null) {
           return ind;
         }

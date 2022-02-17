@@ -17,10 +17,6 @@ const routes = [
     path: '/add/payment/*',
     name: 'AddPaymentForm',
     component: AddPaymentForm,
-    // props: { pValue: 0 },
-    // component: { template: '<form>*AUTH FORM*</form>' }
-    // component: { template: '<AddPaymentForm :value="value" />' }
-    // template: '<App :page="page" />',
   },
   {
     path: '/dashboard',
@@ -49,31 +45,7 @@ const router = new VueRouter({
 
 export default router
 
-
-// ...mapMutations([
-//   "setDate",
-//   "setCategory",
-//   "setValue",
-// ]),
-
-// router.beforeEach((to, next) => {
-//   console.log(to.path);
-//   if (to.name === AddPaymentForm) {
-//     // if (to.path === '/add/payment/Food') {
-//     // this.setCategory('Food');
-//     // this.commit('setCategory', 'Food');
-//     next()
-//   } else { next() }
-
-// })
-
 router.afterEach((to) => {
-  // http://localhost:8080/add/payment/Food?value=200
-
-  // узнать что value = 200, тогда 200 надо передать в ячейку компонента
-  console.log(to.path);
-  // console.log(to.name);
-  // console.log(to.params);
   if (to.name === 'AddPaymentForm') {
     let paramsString = document.location.search;
     let paramsInt = parseInt(paramsString.match(/\d+/));

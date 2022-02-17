@@ -12,7 +12,7 @@
       <v-col>{{ item.date }}</v-col>
       <v-col>{{ item.category }}</v-col>
       <v-col>{{ item.value }}</v-col>
-      <v-col><span @click="onShowContextMenu($event, item)">...</span></v-col>
+      <v-col><v-btn @click="onShowContextMenu(item)">...</v-btn></v-col>
     </v-row>
   </v-container>
 </template>
@@ -29,12 +29,11 @@ export default {
         action: "editpaymentform",
       };
       this.$modal.show(item, settings);
-      // this.$modal.hide()
     },
     deleteItem(id) {
       this.deletePayment({ num: 1, id: id });
     },
-    onShowContextMenu(event, item) {
+    onShowContextMenu(item) {
       const items = [
         {
           id: 1,
@@ -51,13 +50,12 @@ export default {
           },
         },
       ];
-      this.$context.show(event, items);
+      this.$context.show(items);
     },
   },
   computed: {
     ...mapGetters(["getPaymentsList", "getPaymentsList2"]),
     getFPV() {
-      // return this.getPaymentsList;
       return this.getPaymentsList2;
     },
   },

@@ -14,18 +14,23 @@
     <transition name="fade">
       <ContextMenu></ContextMenu>
     </transition>
+    <transition name="fade">
+      <AddPaymentForm></AddPaymentForm>
+    </transition>
   </div>
 </template>
 
 <script>
 import { mapMutations } from "vuex";
 import ContextMenu from "./components/ContextMenu.vue";
+import AddPaymentForm from "./components/AddPaymentForm.vue";
 
 export default {
   name: "App",
 
   components: {
     ContextMenu,
+    AddPaymentForm,
   },
 
   data: () => ({
@@ -39,7 +44,6 @@ export default {
     let num = 1; // Имитация нажатия кнопки "1" компонента пагинации
     this.setPageNum(num);
     this.setDataToPaymentList(num);
-    // this.fetchData(num);
   },
 };
 </script>

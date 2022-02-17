@@ -3,11 +3,13 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import context from './plugins/ContexMenu'
+import modal from './plugins/ModalWindow'
 import vuetify from './plugins/vuetify'
 
 Vue.config.productionTip = false
 
 Vue.use(context)
+Vue.use(modal)
 
 new Vue({
   template: '<App :page="page" />',
