@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    paymentsList: [],
+    paymentsList: {},
     maxId: 0,
     categoryList: [],
     pageList: {}, // хардкод
@@ -18,26 +18,27 @@ export default new Vuex.Store({
       state.maxId = state.paymentsList.length;
     },
     // Добавить элемент в paymentsList
-    addDataToPaymentsList(state, { num, item }) {
-      let page = 'page' + num;
-      let a = state.paymentsList[0][page];
+    addDataToPaymentsList(state, item) {
+      console.log('start addDataToPaymentsList');
+      let page = 'page' + state.pageNum;
+      console.log(page);
+      let a = state.paymentsList[page];
+      console.log(a);
+      if (!a) {
+        a = [];
+      }
       item.id = ++state.maxId;
       a.push(item);
-      // найти индекс элемента массива
-      let index = -1;
-      state.paymentsList.forEach((el, ind) => {
-        let a = el[page];
-        if (a !== null) {
-          index = ind;
-        }
-      });
-      state.paymentsList.splice(index, 1, { [page]: a });
+      console.log(a);
+      state.paymentsList[page] = a;
+      console.log(state.paymentsList);
+      console.log('finish addDataToPaymentsList');
     },
     // Изменить элемент в paymentsList
     editDataToPaymentsList(state, { num, item }) {
       let page = 'page' + num;
 
-      let a = state.paymentsList[0][page];
+      let a = state.paymentsList[page];
       // найти элемент массива
       a.forEach((el, ind) => {
         const { id } = el;
@@ -94,29 +95,70 @@ export default new Vuex.Store({
           {
             "id": 6,
             "date": '25.03.2020',
-            "category": 'Food',
+            "category": 'Education',
             "value": 200,
+          },
+        ],
+        "page3": [
+          {
+            "id": 7,
+            "date": '15.07.2020',
+            "category": 'Food',
+            "value": 205,
+          },
+          {
+            "id": 8,
+            "date": '29.01.2020',
+            "category": 'Navigation',
+            "value": 81,
+          },
+          {
+            "id": 9,
+            "date": '01.10.2020',
+            "category": 'Navigation',
+            "value": 197,
           },
         ]
       };
-      state.maxId = 6;
+      state.maxId = 9;
     },
     // Скопировать данные из хардкода в paymentsList
     setDataToPaymentList(state, payload) {
+      console.log('setDataToPaymentList');
       let page = 'page' + payload;
+      console.log(page);
+      console.log(state.paymentsList);
+
       let a = state.pageList[page];
-      state.paymentsList.push({ [page]: a });
+      console.log(a);
+      if (!a) {
+        console.log('return !a');
+        return;
+      }
+
+      let b = state.paymentsList[page];
+      console.log(b);
+      if (b) {
+        console.log('return b');
+        return;
+      }
+
+      state.paymentsList[page] = a;
+      console.log(state.paymentsList);
     },
     // Установить номер страницы
     setPageNum(state, payload) {
       state.pageNum = payload;
+      console.log(state.pageNum);
     },
+    // Удалить расход
     deletePayment(state, { num, id }) {
       let page = 'page' + num;
-      let a = state.paymentsList[0][page];
+      let a = state.paymentsList[page];
       a = a.filter((el) => el.id !== id);
-      let i = state.paymentsList.indexOf([page]);
-      state.paymentsList.splice(i, 1, { [page]: a });
+      // state.paymentsList[page] = a;
+      Vue.set(state.paymentsList, page, a);
+      console.log(state.paymentsList);
     }
   },
   actions: {
@@ -133,7 +175,7 @@ export default new Vuex.Store({
           commit('setDataToPaymentList', res)
         })
     },
-    // Загрузить директории
+    // Загрузить категории
     loadCategories({ commit }) {
       return new Promise((resolve) => {
         // имитируем работу с сетью
@@ -150,12 +192,14 @@ export default new Vuex.Store({
   modules: {
   },
   getters: {
-    // получаем список расходов
-    getPaymentsList: state => state.paymentsList,
-    getPaymentsList2: (state) => {
-      // return state.paymentsList;
+    // получаем список всех расходов
+    getPaymentsList: (state) => {
+      console.log('getPaymentsList');
+      console.log(state.paymentsList);
       let page = 'page' + state.pageNum;
-      let a = state.paymentsList[0][page];
+      console.log(page);
+      let a = state.paymentsList[page];
+      console.log(a);
       return a;
     },
 
@@ -168,6 +212,7 @@ export default new Vuex.Store({
     getCategoryList: state => {
       return state.categoryList
     },
+    // получить номер страницы
     getPageNum: state => {
       return state.pageNum;
     },

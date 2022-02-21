@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <div class="text-h5 text-sm-h3 mb-8">My personal costs</div>
     <v-row>
       <v-col>
         <v-btn color="teal" dark @click="onAddNewCost()">
@@ -12,13 +13,20 @@
         Diagram
       </v-col>
     </v-row>
+    <v-pagination v-model="page" :length="6" @input="pagInput"></v-pagination>
   </v-container>
 </template>
 
 <script>
 import PaymentsDisplay from "../components/PaymentsDisplay.vue";
+import { mapMutations } from "vuex";
 
 export default {
+  data() {
+    return {
+      page: 1,
+    };
+  },
   components: {
     PaymentsDisplay,
   },
@@ -32,6 +40,7 @@ export default {
     },
   },
   methods: {
+    ...mapMutations(["setPageNum", "setDataToPaymentList"]),
     onAddNewCost() {
       const settings = {
         header: "1234",
@@ -44,6 +53,11 @@ export default {
         value: 0,
       };
       this.$modal.show(data, settings);
+    },
+    pagInput() {
+      console.log(this.page);
+      this.setDataToPaymentList(this.page);
+      this.setPageNum(this.page);
     },
   },
 };

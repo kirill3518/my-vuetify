@@ -1,18 +1,20 @@
 <template>
   <v-container>
     <v-row>
-      <v-col>#</v-col>
-      <v-col>Date</v-col>
-      <v-col>Category</v-col>
-      <v-col>Value</v-col>
-      <v-col></v-col>
+      <v-col :cols="1">#</v-col>
+      <v-col :cols="3">Date</v-col>
+      <v-col :cols="3">Category</v-col>
+      <v-col :cols="2">Value</v-col>
+      <v-col :cols="0"></v-col>
     </v-row>
     <v-row v-for="item in getFPV" :key="item.id">
-      <v-col>{{ item.id }}</v-col>
-      <v-col>{{ item.date }}</v-col>
-      <v-col>{{ item.category }}</v-col>
-      <v-col>{{ item.value }}</v-col>
-      <v-col><v-btn @click="onShowContextMenu(item)">...</v-btn></v-col>
+      <v-col :cols="1">{{ item.id }}</v-col>
+      <v-col :cols="3">{{ item.date }}</v-col>
+      <v-col :cols="3">{{ item.category }}</v-col>
+      <v-col :cols="2">{{ item.value }}</v-col>
+      <v-col :cols="0"
+        ><v-btn @click="onShowContextMenu(item)">...</v-btn></v-col
+      >
     </v-row>
   </v-container>
 </template>
@@ -54,9 +56,9 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["getPaymentsList", "getPaymentsList2"]),
+    ...mapGetters(["getPaymentsList"]),
     getFPV() {
-      return this.getPaymentsList2;
+      return this.getPaymentsList;
     },
   },
 };

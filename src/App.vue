@@ -42,8 +42,8 @@ export default {
   created() {
     this.setPageList();
     let num = 1; // Имитация нажатия кнопки "1" компонента пагинации
-    this.setPageNum(num);
     this.setDataToPaymentList(num);
+    this.setPageNum(num);
   },
 };
 </script>

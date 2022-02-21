@@ -55,7 +55,7 @@ export default {
         category: this.category || "Unknown",
         value: this.amount,
       };
-      this.addDataToPaymentsList({ num: 1, item: data });
+      this.addDataToPaymentsList(data);
       this.dialog = false;
     },
     onSaveClick() {
